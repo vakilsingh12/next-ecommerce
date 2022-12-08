@@ -15,12 +15,12 @@ const Login = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or&nbsp;
-            <a
-              href="#"
+            <Link
+              href={'/signup'}
               className="font-medium text-pink-600 hover:text-pink-500"
             >
               Signup
-            </a>
+            </Link>
           </p>
         </div>
         <form className="mt-8 space-y-6" action="#" method="POST">
