@@ -8,8 +8,8 @@ const Tshirts = ({ data }) => {
           <div className="flex flex-wrap -m-4">
             {data.map((res) => {
               return (
-                <div className="lg:w-1/4 md:w-1/2 p-2 w-full shadow-lg">
-                  <Link
+                <div className="lg:w-1/4 md:w-1/2 p-2 w-full shadow-lg" key={res._id}>
+                  <Link passHref={true}
                     href={`/product/${res.slug}`}
                     className="block relative  rounded overflow-hidden"
                   >
@@ -27,7 +27,7 @@ const Tshirts = ({ data }) => {
                       {res.title}
                     </h2>
                     <p className="mt-1">₹{res.price}</p>
-                    <p className="mt-1">Size: {res.size}</p>
+                    <p className="mt-1">{res.size}</p>
                   </div>
                 </div>
               );
@@ -39,7 +39,7 @@ const Tshirts = ({ data }) => {
   );
 };
 export async function getServerSideProps(context) {
-  let product = await fetch("http://localhost:3000/api/getProducts");
+  let product = await fetch("http://localhost:3000/api/getProducts?cat=tshirt");
   let data = await product.json();
   return {
     props: { data },
