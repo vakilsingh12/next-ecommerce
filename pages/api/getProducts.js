@@ -1,3 +1,5 @@
+// http://localhost:3000/api/getProducts?cat=tshirt
+
 import Product from "../../models/Product";
 import connectDb from "../../middleware/mongoose";
 const handler = async (req, res) => {

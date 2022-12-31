@@ -178,7 +178,7 @@ const Slug = ({addToCart}) => {
                 </span>
                 <button className="flex ml-8 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
                   Buy Now
-                </button>
+                </button> 
                 <button onClick={()=>{addToCart(slug,1,499,"wear the code(XL/Blue)",'XL','Red')}} className="flex ml-2 md:ml-4 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
                   Add to Cart
                 </button>
