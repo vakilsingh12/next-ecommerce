@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-const Slug = ({addToCart}) => {
+const Slug = ({ addToCart, data }) => {
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
   const [service, setService] = useState();
+  const [color, setColor] = useState(data.products.color);
+  const [size, setSize] = useState(data.products.size);
   const checkService = async () => {
     const data = await fetch("http://localhost:3000/api/pincode");
     let pinJson = await data.json();
@@ -17,6 +19,10 @@ const Slug = ({addToCart}) => {
   const onChangePin = (e) => {
     setPin(e.target.value);
   };
+  const refreshVariant = (newsize,newcolor) => {
+    let url=`http://localhost:3000/product/${data.variants[newcolor][newsize]['slug']}`
+    window.location=url
+  }
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -143,19 +149,39 @@ const Slug = ({addToCart}) => {
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
                   <span className="mr-3">Color</span>
-                  <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-pink-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                  {Object.keys(data.variants).includes("White") && Object.keys(data.variants['White']).includes(size) (
+                    <button onClick={e=>refreshVariant(size,'White')} className={`border-2  rounded-full w-6 h-6 focus:outline-none ${color=='White'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Red")&& Object.keys(data.variants['Red']).includes(size) && (
+                    <button onClick={e=>refreshVariant(size,'Red')} className={`border-2 ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none ${color=='Red'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Blue")&& Object.keys(data.variants['Blue']).includes(size) && (
+                    <button onClick={e=>refreshVariant(size,'Blue')} className={`border-2 ml-1 bg-blue-500 rounded-full w-6 h-6 focus:outline-none ${color=='Blue'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Yellow") && Object.keys(data.variants['Yellow']).includes(size)&& (
+                    <button onClick={e=>refreshVariant(size,'Yellow')} className={`border-2 mx-1 bg-yellow-700 b rounded-full w-6 h-6 focus:outline-none ${color=='Yellow'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Green")&& Object.keys(data.variants['Green']).includes(size) && (
+                    <button onClick={e=>refreshVariant(size,'Green')} className={`border-2 mx-1 bg-green-700  rounded-full w-6 h-6 focus:outline-none ${color=='Green'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Purple")&& Object.keys(data.variants['Purple']).includes(size) && (
+                    <button onClick={e=>refreshVariant(size,'Purple')} className={`border-2 mx-1 bg-purple-700 b rounded-full w-6 h-6 focus:outline-none ${color=='Purple'?'border-black':'border-gray-300'}`}></button>
+                  )}
+                  {Object.keys(data.variants).includes("Black")&& Object.keys(data.variants['Black']).includes(size) && (
+                    <button onClick={e=>refreshVariant(size,'Black')} className={`border-2 mx-1 bg-black  rounded-full w-6 h-6 focus:outline-none ${color=='Black'?'border-black':'border-gray-300'}`}></button>
+                  )}
                 </div>
                 <div className="flex ml-6 items-center">
                   <span className="mr-3">Size</span>
                   <div className="relative">
-                    <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                      <option>SM</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
-                    </select>
+                      <select value={size} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10" onChange={e=>refreshVariant(e.target.value,color)}>
+                      <option>Select</option>
+                     {Object.keys(data.variants[color]).includes('S')&& <option value={'S'}>S</option>}
+                     {Object.keys(data.variants[color]).includes('M')&& <option value={'M'}>M</option>}
+                     {Object.keys(data.variants[color]).includes('L')&& <option value={'L'}>L</option>}
+                     {Object.keys(data.variants[color]).includes('XL')&& <option value={'XL'}>XL</option>}
+                     {Object.keys(data.variants[color]).includes('XXL')&& <option value={'XXL'}>XXL</option>}
+                      </select>
                     <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg
                         fill="none"
@@ -176,13 +202,25 @@ const Slug = ({addToCart}) => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ₹499
                 </span>
-                <button className="flex ml-8 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
+                <button onClick={e=>refreshVariant(size,'White')} className="flex ml-8 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
                   Buy Now
-                </button> 
-                <button onClick={()=>{addToCart(slug,1,499,"wear the code(XL/Blue)",'XL','Red')}} className="flex ml-2 md:ml-4 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
+                </button>
+                <button onClick={e=>refreshVariant(size,'White')}
+                  onClick={() => {
+                    addToCart(
+                      slug,
+                      1,
+                      499,
+                      "wear the code(XL/Blue)",
+                      "XL",
+                      "Red"
+                    );
+                  }}
+                  className="flex ml-2 md:ml-4 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded"
+                >
                   Add to Cart
                 </button>
-                <button className="rounded-full w-10 h-10 bg-pink-200 p-0 border-0 inline-flex items-center justify-center text-pink-500 ml-4">
+                <button onClick={e=>refreshVariant(size,'White')} className="rounded-full w-10 h-10 bg-pink-200 p-0 border-0 inline-flex items-center justify-center text-pink-500 ml-4">
                   <svg
                     fill="currentColor"
                     strokeLinecap="round"
@@ -202,7 +240,7 @@ const Slug = ({addToCart}) => {
                   className="px-2 border-2 border-pink-200 outline-none rounded-md"
                   placeholder="Enter your pincode"
                 />
-                <button
+                <button onClick={e=>refreshVariant(size,'White')}
                   onClick={checkService}
                   className="flex ml-14 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
@@ -226,5 +264,16 @@ const Slug = ({addToCart}) => {
     </>
   );
 };
+export async function getServerSideProps(context) {
+  let cat = context.query.slug;
+  let product = await fetch(
+    `http://localhost:3000/api/productslug?slug=${cat}`
+  );
+  let data = await product.json();
+  console.log(data);
+  return {
+    props: { data },
+  };
+}
 
 export default Slug;

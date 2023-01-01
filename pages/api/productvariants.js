@@ -3,7 +3,10 @@
 import Product from "../../models/Product";
 import connectDb from "../../middleware/mongoose";
 const handler = async (req, res) => {
-  let products = await Product.find();
+  const cat = req.query.cat;
+  let filter={};
+  filter={ category: cat }
+  let products = await Product.find(filter);
   let tshirt = {};
   for (let item of products) {
     if (item.title in tshirt) {
