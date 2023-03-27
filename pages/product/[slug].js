@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-const Slug = ({ addToCart, data }) => {
+const Slug = ({ buyNow,addToCart, data }) => {
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
@@ -31,7 +31,7 @@ const Slug = ({ addToCart, data }) => {
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded"
-              src="https://m.media-amazon.com/images/I/61rSf7lBx1L._UX569_.jpg"
+              src={data.products.img}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -253,7 +253,12 @@ const Slug = ({ addToCart, data }) => {
                   ₹499
                 </span>
                 <button
-                  onClick={(e) => refreshVariant(size, "White")}
+                 onClick={()=>buyNow(slug,
+                      1,
+                      499,
+                      data.products.title,
+                      data.products.size,
+                      data.products.color)}
                   className="flex ml-8 text-white bg-pink-500 border-0 py-2 px-3 md:px-6 focus:outline-none hover:bg-pink-600 rounded"
                 >
                   Buy Now
