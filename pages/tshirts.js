@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 const Tshirts = ({ data }) => {
-  // console.log(data)
   return (
     <div>
       <section className="text-gray-600 body-font">

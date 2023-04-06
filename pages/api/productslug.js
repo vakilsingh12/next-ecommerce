@@ -6,7 +6,6 @@ const handler = async (req, res) => {
   const slug=req.query.slug;
   let products = await Product.findOne({slug:slug});
   let variants=await Product.find({title:products.title})
-  console.log(variants)
   let colorSizeslug = {};
   for (let item of variants) {
    if(Object.keys(colorSizeslug).includes(item.color)){

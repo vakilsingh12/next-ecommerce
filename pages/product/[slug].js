@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Slug = ({ buyNow,addToCart, data }) => {
+  const notify = () => toast("Wow so easy!");
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
